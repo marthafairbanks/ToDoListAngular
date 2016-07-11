@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang='en' ng-app='todoAngular'>
     <head>
         <meta charset='utf-8'>
-        <title>TODO List</title>
+        <title>ToDo List - Angular</title>
 
         <meta name='description' content='A simple app to track TODO items'>
         <meta name='author' content=''>
@@ -17,47 +17,48 @@
             <h1>todos</h1>
         </header>
 
-        <main>
-            <form action='' method='post'>
-                <input type='text' class='new-todo' placeholder='What needs to be done?'>
+        <main ng-controller='ToDoController as todo'>
+            <form ng-submit='todo.writeToDoArray()'>
+                <input type='text' class='new-todo' placeholder='What needs to be done?' ng-model='todo.form.toDoItem'>
             </form>
 
             <ul class='items'>
-            
-                <!-- example of existing item (incomplete)
+                <li ng-repeat = "item in todo.toDoArray | filter:{isComplete:todo.showActiveComplete||undefined}">
+                    <article ng-class = "{completed: item.isComplete}">
+                        <button class='check' ng-model="todo.completed" ng-click="todo.makeCompleted(item)"></button>
+                        <p>{{item.toDoItem}}</p>
+                        <input type='text' class='edit-todo' value='learn html'>
+                        <button class='delete' ng-click="todo.deleteToDo(item)">X</button>
+                    </article>
+                </li>
+            </ul> 
+
+                <!-- example of item currently being edited
                 <li>
-                    <article>
+                    <article class='editing'>
                         <button class='check'></button>
-                        <p>learn html</p>
+                        <p>learn javascript</p>
+                        <input type='text' class='edit-todo' value='learn javascript'>
                         <button class='delete'>X</button>
                     </article>
                 </li>
                 -->
-                <!-- example of completed item
-                <li>
-                    <article class='completed'>
-                        <button class='check'></button>
-                        <p class='complete'>learn css</p>
-                        <button class='delete'>X</button>
-                    </article>
-                </li>   
-                -->
-            </ul>
 
             <footer>
-                <p class='remaining'><span class='incomplete-items'>0</span> items left</p>
+                <p class='remaining'><span class='incomplete-items'>{{todo.counter}}</span> items left</p>
                 <nav>
                     <ul>
-                        <li><button class='show-all active'>All</button></li>
-                        <li><button class='show-active'>Active</button></li>
-                        <li><button class='show-completed'>Completed</button></li>
+                        <li><button class='show-all active' ng-click="todo.showActiveCompleted()">All</button></li>
+                        <li><button class='show-active' ng-click="todo.showActiveCompleted('false')">Active</button></li>
+                        <li><button class='show-completed' ng-click="todo.showActiveCompleted('true')">Completed</button></li>
                     </ul>
                 </nav>
+                <button class='clear' ng-click = 'todo.clearCompleted()'>Clear completed</button>
             </footer>
         </main>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"
-            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
-            crossorigin="anonymous"></script>
-        <script src="js/main.js"></script>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/factories/storageToDos.js"></script>
+    <script src="js/controllers/body.js"></script>
     </body>
 </html>
