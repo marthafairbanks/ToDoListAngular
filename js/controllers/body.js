@@ -101,13 +101,11 @@
 		//clears completed toDoArray items when the button is clicked, updates
 		//local storage	
  		vm.clearCompleted = function clearCompleted() {
- 			vm.toDoArray.forEach(function(array) {
- 				if (array.isComplete === true) {
- 					vm.index = vm.toDoArray.indexOf(array);
- 					console.log(vm.index);
- 					var test = vm.toDoArray.splice(vm.index,1);
- 				}
- 			});
+ 			var array = vm.toDoArray.filter(function(array) {
+                return !array.isComplete;
+            });
+
+            vm.toDoArray = array;
 
  			storageToDos.saveToDos(vm.toDoArray);
  			
