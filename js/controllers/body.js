@@ -5,6 +5,8 @@
 	       
 		var vm = this;
 		vm.counter = 0; //needed so that 0 displays on page load
+
+		vm.all = true;
 	
 		vm.toDoArray = [];
 		if (storageToDos.getToDos() !== null) {
@@ -21,6 +23,9 @@
 				}
 			});
 		};
+
+				vm.itemCount();
+
 
 		//gets new to do items, adds them to the array, saves the array to local
 		//storage, updates the item count, & clears the form input
@@ -71,18 +76,36 @@
  		};			
 
  		//shows all, active, and completed items when their respective buttons 
- 		//are clicked through a filter in ng-repeat
+ 		//are clicked through a filter in ng-repeat, toggles the button class
+ 		//active
  		vm.showActiveCompleted = function showActiveCompleted(x){
  			vm.showActiveComplete = x;
+
+ 			if (x === 'false') {
+ 				vm.completed = false;
+ 				vm.all = false;
+ 				vm.noncompleted = true;
+ 			}
+ 			else if (x === 'true') {
+ 				vm.completed = true;
+ 				vm.all = false;
+ 				vm.noncompleted = false;
+ 			}
+ 			else {
+ 				vm.completed = false;
+ 				vm.all = true;
+ 				vm.noncompleted = false;
+ 			}
  		};	 	
 		
 		//clears completed toDoArray items when the button is clicked, updates
 		//local storage	
  		vm.clearCompleted = function clearCompleted() {
- 			vm.toDoArray.forEach(function(toDoArray) {
- 				if (toDoArray.isComplete === true) {
- 					vm.index = vm.toDoArray.indexOf(toDoArray);
- 					vm.toDoArray.splice(vm.index, 1);
+ 			vm.toDoArray.forEach(function(array) {
+ 				if (array.isComplete === true) {
+ 					vm.index = vm.toDoArray.indexOf(array);
+ 					console.log(vm.index);
+ 					var test = vm.toDoArray.splice(vm.index,1);
  				}
  			});
 
