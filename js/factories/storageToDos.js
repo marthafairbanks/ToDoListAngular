@@ -1,17 +1,25 @@
-'use strict';
-
 (function () {
-angular.module('todoAngular').factory('pullToDos', function(){
+	'use strict';
+	angular.module('toDoAngular').factory('storageToDos', function(){
 
-    function getToDos(){
-        var testMessage = "my factory works!";
+    function saveToDos(){
         //save array to local storage here
         //get array from local storage here
-        return testMessage;
-    }
 
-    return {
-      getToDos,
+		//var toDoArray = localStorage.setItem('toDoArray', JSON.stringify(toDoArray));
+        return null;
     }
-});
+ //    function getToDos() {
+	//     var toDoArray = JSON.parse(localStorage.getItem('toDoArray'));
+	//     return toDoArray;
+	// }
+		
+    return {
+      saveToDos:saveToDos,
+      // getToDos,
+    };
+
+
+
+	});
 })();    

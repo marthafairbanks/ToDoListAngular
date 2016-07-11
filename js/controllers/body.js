@@ -1,14 +1,23 @@
 (function() {
 	'use strict';
-	angular.module('todoAngular').controller('ToDoController', function (pullToDos){
-
-	    	// var test = pullToDos.getToDos();
-	    	// alert (test); //my factory is working
-
-	    	// alert("My controller is working :)");
+	angular.module('toDoAngular').controller('ToDoController', 
+	function (storageToDos){
+			
+			// localStorage.removeItem("toDoArray");
+			console.log(localStorage);
 	       
 		var vm = this;
 		vm.toDoArray = [];
+		if (storageToDos.saveToDos() === null) {
+			console.log("nothing in storage");
+			vm.toDoArray = [];
+		}
+		// else {
+		// 	vm.toDoArray = storageToDos.getToDos();
+		// }
+		
+		vm.counter = 0; //needed so that 0 displays on page load
+		console.log(vm.toDoArray);
 
  		//loops through the array counting toDo items with isComplete = false
  		//and displays the number 
@@ -34,9 +43,12 @@
 			};
 			
 			vm.toDoArray.push(vm.newToDo);
+			// storageToDos.saveToDos(vm.toDoArray);
 			vm.form = [];
+			console.log(vm.toDoArray);
 
-			vm.itemCount();			
+			vm.itemCount();
+	
 		};
 
 		//toggles the truthiness of the property isComplete when the 
@@ -78,7 +90,6 @@
  			});
  			
  		};
-
 
 	});
 })();
