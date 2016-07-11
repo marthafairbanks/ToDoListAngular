@@ -2,22 +2,14 @@
 	'use strict';
 	angular.module('toDoAngular').controller('ToDoController', 
 	function (storageToDos){
-			
-			// localStorage.removeItem("toDoArray");
-			console.log(localStorage);
 	       
 		var vm = this;
-		vm.toDoArray = [];
-		if (storageToDos.saveToDos() === null) {
-			console.log("nothing in storage");
-			vm.toDoArray = [];
-		}
-		// else {
-		// 	vm.toDoArray = storageToDos.getToDos();
-		// }
-		
 		vm.counter = 0; //needed so that 0 displays on page load
-		console.log(vm.toDoArray);
+	
+		vm.toDoArray = [];
+		if (storageToDos.getToDos() !== null) {
+			vm.toDoArray = storageToDos.getToDos();
+		}
 
  		//loops through the array counting toDo items with isComplete = false
  		//and displays the number 
@@ -30,7 +22,8 @@
 			});
 		};
 
-		//gets new to do items, adds them to the array
+		//gets new to do items, adds them to the array, saves the array to local
+		//storage, updates the item count, & clears the form input
 		vm.writeToDoArray = function writeToDoArray(){
 			function assignId(min, max) {
 				return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -43,16 +36,16 @@
 			};
 			
 			vm.toDoArray.push(vm.newToDo);
-			// storageToDos.saveToDos(vm.toDoArray);
+			storageToDos.saveToDos(vm.toDoArray);
 			vm.form = [];
-			console.log(vm.toDoArray);
 
 			vm.itemCount();
 	
 		};
 
 		//toggles the truthiness of the property isComplete when the 
-		//checkmark button is clicked
+		//checkmark button is clicked, updates item count, saves changes to 
+		//local storage
 		vm.makeCompleted = function makeCompleted(item) {
      		vm.index = vm.toDoArray.indexOf(item);
      		if (vm.toDoArray[vm.index].isComplete === false) {
@@ -62,16 +55,19 @@
      			vm.toDoArray[vm.index].isComplete = false;
      		}
 
-     		vm.itemCount();   			
+     		vm.itemCount();
+     		storageToDos.saveToDos(vm.toDoArray);   			
  		};
 
  		//deletes the toDoItem from the toDoArray, toDoItem gets written out 
- 		//on the html side through ng-repeat, calls function itemCount
+ 		//on the html side through ng-repeat, updates item count, saves changes
+ 		//to local storage array
 		vm.deleteToDo = function deleteToDo(item) {
      		vm.index = vm.toDoArray.indexOf(item);
      		vm.toDoArray.splice(vm.index, 1);
 
      		vm.itemCount();
+     		storageToDos.saveToDos(vm.toDoArray);
  		};			
 
  		//shows all, active, and completed items when their respective buttons 
@@ -80,7 +76,8 @@
  			vm.showActiveComplete = x;
  		};	 	
 		
-		//clears completed toDoArray items when the button is clicked	
+		//clears completed toDoArray items when the button is clicked, updates
+		//local storage	
  		vm.clearCompleted = function clearCompleted() {
  			vm.toDoArray.forEach(function(toDoArray) {
  				if (toDoArray.isComplete === true) {
@@ -88,6 +85,8 @@
  					vm.toDoArray.splice(vm.index, 1);
  				}
  			});
+
+ 			storageToDos.saveToDos(vm.toDoArray);
  			
  		};
 

@@ -48,7 +48,7 @@
                 <p class='remaining'><span class='incomplete-items'>{{todo.counter}}</span> items left</p>
                 <nav>
                     <ul>
-                        <li><button class='show-all active' ng-click="todo.showActiveCompleted()">All</button></li>
+                        <li><button class='show-all active' ng-class = "" ng-click="todo.showActiveCompleted()">All</button></li>
                         <li><button class='show-active' ng-click="todo.showActiveCompleted('false')">Active</button></li>
                         <li><button class='show-completed' ng-click="todo.showActiveCompleted('true')">Completed</button></li>
                     </ul>

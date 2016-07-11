@@ -2,21 +2,19 @@
 	'use strict';
 	angular.module('toDoAngular').factory('storageToDos', function(){
 
-    function saveToDos(){
+    function saveToDos(toDoArray){
         //save array to local storage here
-        //get array from local storage here
-
-		//var toDoArray = localStorage.setItem('toDoArray', JSON.stringify(toDoArray));
-        return null;
+        var saveToDoArray = localStorage.setItem('toDoArray', JSON.stringify(toDoArray));
     }
- //    function getToDos() {
-	//     var toDoArray = JSON.parse(localStorage.getItem('toDoArray'));
-	//     return toDoArray;
-	// }
+    //get array from local storage here
+    function getToDos(toDoArray) {
+	    var getToDoArray = JSON.parse(localStorage.getItem('toDoArray'));
+      return getToDoArray;
+	}
 		
     return {
       saveToDos:saveToDos,
-      // getToDos,
+      getToDos:getToDos,
     };
 
 
